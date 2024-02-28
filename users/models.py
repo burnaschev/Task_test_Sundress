@@ -49,6 +49,6 @@ class User(AbstractUser):
     image = models.ImageField(upload_to='users_img/', verbose_name='аватар', **NULLABLE)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', "role"]
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone']
 
     objects = UserManager()

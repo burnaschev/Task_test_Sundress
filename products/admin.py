@@ -15,4 +15,4 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'image', 'category', 'subcategory')
+    list_display = ('name', 'price', 'image_small', 'image_medium', 'image_large', 'subcategory')

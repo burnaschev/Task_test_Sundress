@@ -2,11 +2,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+NULLABLE = {'null': True, 'blank': True}
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='наименование')
     slug = models.SlugField(unique=True, verbose_name='slug')
-    image = models.ImageField(upload_to='category_images/', verbose_name='изображение')
+    image = models.ImageField(upload_to='category_images/', **NULLABLE, verbose_name='изображение')
 
     def __str__(self):
         return self.name
@@ -19,7 +21,7 @@ class Category(models.Model):
 class SubCategory(models.Model):
     name = models.CharField(max_length=100, verbose_name='наименование')
     slug = models.SlugField(unique=True, verbose_name='slug')
-    image = models.ImageField(upload_to='subcategory_images/', verbose_name='изображение')
+    image = models.ImageField(upload_to='subcategory_images/', **NULLABLE, verbose_name='изображение')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категория')
 
     def __str__(self):
@@ -33,10 +35,15 @@ class SubCategory(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100, verbose_name='наименование')
     slug = models.SlugField(unique=True, verbose_name='slug')
-    image = models.ImageField(upload_to='product_images/', verbose_name='изображение')
+    image_small = models.ImageField(upload_to='product_images/small/', **NULLABLE,
+                                    verbose_name="маленький размер изображения")
+    image_medium = models.ImageField(upload_to='product_images/medium/', **NULLABLE,
+                                     verbose_name='средний размер изображения')
+    image_large = models.ImageField(upload_to='product_images/large/', **NULLABLE,
+                                    verbose_name='большой размер изображения')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='цена')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категорий')
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE, verbose_name='подкатегорий')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='категория')
 
     def __str__(self):
         return self.name
