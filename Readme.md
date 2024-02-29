@@ -33,7 +33,7 @@
 ## Модели
 
 - Category
-- SybCategory
+- SubCategory
 - Product
 - Basket
 - BasketProduct
