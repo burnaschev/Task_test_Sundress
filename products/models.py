@@ -54,13 +54,25 @@ class Product(models.Model):
 
 
 class Basket(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='корзина')
-    quantity = models.PositiveIntegerField(default=1, verbose_name='количество')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='basket',
+                             verbose_name='пользователь')
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
+        return f"Корзина пользователя {self.user.email}"
 
     class Meta:
         verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'
+
+
+class BasketProducts(models.Model):
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE, related_name='basket_products', verbose_name='корзина')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='количество')
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} в корзине {self.basket}"
+
+    class Meta:
+        verbose_name = 'Позиция в корзине'
+        verbose_name_plural = 'Позиции в корзине'
