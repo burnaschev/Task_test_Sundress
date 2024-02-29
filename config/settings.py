@@ -148,9 +148,9 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8000',
+    os.getenv('CORS_ALLOWED_ORIGINS'),
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com",
+    os.getenv('CSRF_TRUSTED_ORIGINS'),
 ]
